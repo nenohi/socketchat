@@ -27,6 +27,8 @@ io.on('connection',(socket)=>{
     })
     socket.on('msgcreat',(data)=>{
         data.id = socket.id
+        var now = new Date();
+        data.time = now.getHours()+':'+now.getMinutes();
         console.log(data)
         io.to(userdata[socket.id]).emit('createdmsg',data)
         fs.appendFile( userdata[socket.id]+'.log', JSON.stringify(data)+'\r\n', function (err) {

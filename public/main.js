@@ -42,38 +42,22 @@ $(function() {
 		// Don't fade the message in if there is an 'X was typing'
 
 	
-		var $usernameDiv = $('<span class="username" title=ID:'+data.id+'/>')
+		var $usernameDiv = $('<span class="username" title="ID:'+data.id+'"/>')
 		.text(data.username)
 		.css('color', getUsernameColor(data.username));
+		var $messageTime = $('<li class="time" />')
+		.text(data.time)
 		var $messageBodyDiv = $('<span class="messageBody">')
-		.text(data.message).css('color',data.messagecolor)
+		.text(data.message)
+		.css('color',data.messagecolor)
 		var $messageDiv = $('<li class="message"/>')
 		.data('username', data.username)
 		.append($usernameDiv, $messageBodyDiv);
-	
-		addMessageElement($messageDiv, options);
+		addMessageElement($messageDiv);
 	}
-	const addMessageElement = (el, options) => {
+	const addMessageElement = (el) => {
 		var $el = $(el);
-	
-		// Setup default options
-		if (!options) {
-		options = {};
-		}
-		if (typeof options.fade === 'undefined') {
-		options.fade = true;
-		}
-		if (typeof options.prepend === 'undefined') {
-		options.prepend = false;
-		}
-		if (options.fade) {
-		$el.hide().fadeIn(FADE_TIME);
-		}
-		if (options.prepend) {
-		$messages.prepend($el);
-		} else {
 		$messages.append($el);
-		}
 		$messages[0].scrollTop = $messages[0].scrollHeight;
 	}
 	const cleanInput = (input) => {
