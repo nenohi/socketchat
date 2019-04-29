@@ -1,0 +1,46 @@
+// Setup basic express server
+var express = require('express');
+var app = express();
+var path = require('path');
+var fs = require('fs');
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var port = process.env.PORT || 3000;
+var util = require('util');
+var userdata=[];
+var serverdata=[];
+server.listen(port, () => {
+	console.log('Server listening at port %d', port);
+});
+app.use(express.static(path.join(__dirname, 'public')));
+io.on('connection',(socket)=>{
+    console.log(socket)
+    socket.on('login user',(data)=>{
+        console.log(data);
+        socket.join(String(data['userroom']),()=>{
+            let room = Object.keys(socket.rooms)
+            console.log(room[0])
+            serverdata[room[0]] = serverdata[room[0]]+1;
+            userdata[socket.id] = room[0]
+            console.log(socket.rooms)
+        })
+    })
+    socket.on('msgcreat',(data)=>{
+        data.id = socket.id
+        console.log(data)
+        io.to(userdata[socket.id]).emit('createdmsg',data)
+        fs.appendFile( userdata[socket.id]+'.log', JSON.stringify(data)+'\r\n', function (err) {
+            if (err) {
+                throw err;
+            }
+          });
+    })
+    socket.on('disconnect',()=>{
+        console.log(serverdata[userdata[socket.id]])
+        serverdata[userdata[socket.id]] = serverdata[userdata[socket.io]]-1
+    })
+    socket.on('reconnect', ()=>{
+
+    })
+    
+})
