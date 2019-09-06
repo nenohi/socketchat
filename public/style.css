@@ -215,3 +215,7 @@ ul {
   right: 0;
   width: 7%;
 }
+.time{
+  position:absolute;
+  right:50px;
+}

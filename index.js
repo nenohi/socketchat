@@ -14,21 +14,26 @@ server.listen(port, () => {
 });
 app.use(express.static(path.join(__dirname, 'public')));
 io.on('connection',(socket)=>{
-    console.log(socket)
+    //console.log(socket)
     socket.on('login user',(data)=>{
         console.log(data);
         socket.join(String(data['userroom']),()=>{
             let room = Object.keys(socket.rooms)
-            console.log(room[0])
+            //console.log(room[0])
             serverdata[room[0]] = serverdata[room[0]]+1;
             userdata[socket.id] = room[0]
+            //
+            
             console.log(socket.rooms)
+            //io.to(String(data['userroom'])).emit('userlist',)
         })
     })
     socket.on('msgcreat',(data)=>{
-        data.id = socket.id
+        data.id = socket.id;
         var now = new Date();
-        data.time = now.getHours()+':'+now.getMinutes();
+        data.time = now.getHours()+':'+('0' + now.getMinutes()).slice(-2);
+        data.day = now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate();
+        now = undefined;
         console.log(data)
         io.to(userdata[socket.id]).emit('createdmsg',data)
         fs.appendFile( userdata[socket.id]+'.log', JSON.stringify(data)+'\r\n', function (err) {

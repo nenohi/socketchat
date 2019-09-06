@@ -6,7 +6,7 @@ $(function() {
 		'#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
 		'#3b88eb', '#3824aa', '#a700ff', '#d300e7'
 	];
-	var noname = ['admin','system','アドミン','システム'];
+	var noname = ['admin','system','システム','通知'];
 	// Initialize variables
 	var $window = $(window);
 	var $usernameInput = $('.usernameInput'); // Input for username
@@ -21,8 +21,9 @@ $(function() {
 	// Prompt for setting a username
 	var username;
 	var userroom;
-	
 	var socket = io();
+
+	$userroomInput.val(getParam('room'));
 	const setUsername = () => {
 		username = cleanInput($usernameInput.val().trim());
 		userroom = cleanInput($userroomInput.val().trim());
@@ -45,14 +46,14 @@ $(function() {
 		var $usernameDiv = $('<span class="username" title="ID:'+data.id+'"/>')
 		.text(data.username)
 		.css('color', getUsernameColor(data.username));
-		var $messageTime = $('<li class="time" />')
-		.text(data.time)
 		var $messageBodyDiv = $('<span class="messageBody">')
 		.text(data.message)
 		.css('color',data.messagecolor)
+		var $messageTime = $('<a class="time" title="'+data.day+'"/>')
+		.text(data.time)
 		var $messageDiv = $('<li class="message"/>')
 		.data('username', data.username)
-		.append($usernameDiv, $messageBodyDiv);
+		.append($usernameDiv, $messageBodyDiv,$messageTime);
 		addMessageElement($messageDiv);
 	}
 	const addMessageElement = (el) => {
@@ -122,6 +123,19 @@ $(function() {
 		console.log('disconnected')
 	})
 	socket.on('reconnect' , ()=>{
+		socket.emit('login user', {username:username,userroom:userroom});
 		console.log('reconnected')
 	})
 })
+
+
+
+function getParam(name, url) {
+	if (!url) url = window.location.href;
+	name = name.replace(/[\[\]]/g, "\\$&");
+	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
