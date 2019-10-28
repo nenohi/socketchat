@@ -100,9 +100,12 @@ $(function() {
 		msgcolorcheck = $messagecolor.val()
 		if(colorcheck.test(msgcolorcheck)){
 			msgcolor = $messagecolor.val().trim();
-		}else {
+		}else if(colorcheck.test("#"+$messagecolor.val())){
+			msgcolor = "#"+$messagecolor.val()
+		}else{
 			msgcolor = "#000"
 		}
+		
         data={
 			message:cleanInput($inputMessage.val().trim()),
 			messagecolor:msgcolor,
