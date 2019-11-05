@@ -13,6 +13,7 @@ $(function() {
 	var $userroomInput = $('.userroomInput');
 	var $messages = $('.messages'); // Messages area
 	var $messagecolor = $('.msgcolor');
+	var $titlelogin = $(".login");
 	var $inputMessage = $('.inputMessage'); // Input message input box
 
 	var $loginPage = $('.login.page'); // The login page
@@ -49,7 +50,7 @@ $(function() {
 		var $messageBodyDiv = $('<span class="messageBody">')
 		.text(data.message)
 		.css('color',data.messagecolor)
-		var $messageTime = $('<a class="time" title="'+data.day+'"/>')
+		var $messageTime = $('<span class="time" title="'+data.day+'"/>')
 		.text(data.time)
 		var $messageDiv = $('<li class="message"/>')
 		.data('username', data.username)
@@ -67,7 +68,7 @@ $(function() {
 	// Gets the color of a username through our hash function
 	const getUsernameColor = (username) => {
 		// Compute hash code
-		var hash = 7;
+		var hash =7;
 		for (var i = 0; i < username.length; i++) {
 		 hash = username.charCodeAt(i) + (hash << 5) - hash;
 		}
@@ -94,7 +95,20 @@ $(function() {
 				setUsername();
 			}
 		}
-    })
+	})
+	$titlelogin.click(function(){
+		inputtext = $('.inputMessage').val()
+		inputtext = inputtext.replace(/\s+/g)
+		if (username && inputtext !='') {
+			sendMessage();
+		} else if($usernameInput.val()==''){
+			$usernameInput.focus();
+		}else if($userroomInput.val()==''){
+			$userroomInput.focus();
+		}else if(!username){
+			setUsername();
+		}
+	})
 
     const sendMessage = ()=>{
 		msgcolorcheck = $messagecolor.val()
@@ -130,8 +144,6 @@ $(function() {
 		console.log('reconnected')
 	})
 })
-
-
 
 function getParam(name, url) {
 	if (!url) url = window.location.href;
