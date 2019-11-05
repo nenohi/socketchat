@@ -13,7 +13,7 @@ $(function() {
 	var $userroomInput = $('.userroomInput');
 	var $messages = $('.messages'); // Messages area
 	var $messagecolor = $('.msgcolor');
-	var $titlelogin = $(".login");
+	var $titlelogin = $(".loginbtn");
 	var $inputMessage = $('.inputMessage'); // Input message input box
 
 	var $loginPage = $('.login.page'); // The login page
@@ -36,7 +36,7 @@ $(function() {
 			// Tell the server your username
 			(userroom) ? userroom = String(userroom) : userroom = String('1');
 			checkname = socket.emit('login user', {username:username,userroom:userroom});
-			console.log(checkname);
+			console.log(username);
 		}
 	}
 	const addChatMessage = (data, options) => {
@@ -107,6 +107,11 @@ $(function() {
 			$userroomInput.focus();
 		}else if(!username){
 			setUsername();
+		}
+	})
+	$(".sendmsg").click(function(){
+		if (username && inputtext !='') {
+			sendMessage();
 		}
 	})
 
