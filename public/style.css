@@ -389,7 +389,7 @@ ul {
     border: 10px solid #000;
     border-right-width: 2.5px;
     border-left-width: 5px;
-    bottom: 5%;
+    bottom: 90px;
     height: 70px;
     left: 0;
     outline: none;
@@ -403,7 +403,7 @@ ul {
     border: 10px solid #000;
     border-right-width: 2.5px;
     border-left-width: 2.5px;
-    bottom: 5%;
+    bottom: 90px;
     height: 70px;
     left: 20%;
     outline: none;
@@ -417,7 +417,7 @@ ul {
     border: 10px solid #000;
     border-right-width: 2.5px;
     border-left-width: 2.5px;
-    bottom: 5%;
+    bottom: 90px;
     height: 70px;
     left: 30%;
     outline: none;
