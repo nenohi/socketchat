@@ -37,6 +37,7 @@ io.on('connection',(socket)=>{
         console.log(data)
         buf = new Buffer.from(data.message,'utf16le');
         data.message = buf.toString('utf-16le',0,buf.length)
+        data.buf = buf;
         console.log(buf)
         console.log(data.message)
         io.to(userdata[socket.id]).emit('createdmsg',data)
