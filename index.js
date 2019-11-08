@@ -35,6 +35,9 @@ io.on('connection',(socket)=>{
         data.day = now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate();
         now = undefined;
         console.log(data)
+        buf = new Buffer.from(data.message,'utf16le');
+        data.message = buf.toString('utf-16le',0,buf.length)
+        console.log(buf)
         io.to(userdata[socket.id]).emit('createdmsg',data)
         fs.appendFile( userdata[socket.id]+'.log', JSON.stringify(data)+'\r\n', function (err) {
             if (err) {
