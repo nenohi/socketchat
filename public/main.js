@@ -35,7 +35,7 @@ $(function() {
 			$loginPage.off('click');
 			// Tell the server your username
 			(userroom) ? userroom = String(userroom) : userroom = String('1');
-			checkname = socket.emit('login user', {username:username,userroom:userroom});
+			checkname = socket.emit('login_user', {username:username,userroom:userroom});
 			console.log(username);
 		}
 	}
