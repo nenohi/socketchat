@@ -142,10 +142,11 @@ $(function() {
         addChatMessage(data);
     })
     socket.on('disconnect',()=>{
+		
 		console.log('disconnected')
 	})
 	socket.on('reconnect' , ()=>{
-		socket.emit('login user', {username:username,userroom:userroom});
+		socket.emit('login_user', {username:username,userroom:userroom});
 		console.log('reconnected')
 	})
 })

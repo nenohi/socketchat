@@ -16,15 +16,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 io.on('connection',(socket)=>{
     //console.log(socket)
     socket.on('login_user',(data)=>{
-        console.log(data);
+        //console.log(data);
         socket.join(String(data['userroom']),()=>{
             let room = Object.keys(socket.rooms)
             //console.log(room[0])
-            serverdata[room[0]] = serverdata[room[0]]+1;
+            if(serverdata[room[0]] ==undefined){
+                serverdata[room[0]] =[];
+            }
+            serverdata[room[0]][socket.id]=data["username"];
             userdata[socket.id] = room[0]
             //
-            
-            console.log(socket.rooms)
+            io.to(userdata[socket.id]).emit("userlist",{"userid":socket.id,"username":data["username"],"userroom":room[0]});
+            console.log("user join" + serverdata[room[0]])
             //io.to(String(data['userroom'])).emit('userlist',)
         })
     })
@@ -48,8 +51,10 @@ io.on('connection',(socket)=>{
           });
     })
     socket.on('disconnect',()=>{
-        console.log(serverdata[userdata[socket.id]])
-        serverdata[userdata[socket.id]] = serverdata[userdata[socket.io]]-1
+        delete serverdata[userdata[socket.id]][socket.id]
+        io.to(userdata[socket.id]).emit("userlist",serverdata);
+        console.log("user disconnect" + serverdata[userdata[socket.id]])
+
     })
     socket.on('reconnect', ()=>{
 
