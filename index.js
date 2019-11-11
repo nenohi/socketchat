@@ -15,7 +15,7 @@ server.listen(port, () => {
 app.use(express.static(path.join(__dirname, 'public')));
 io.on('connection',(socket)=>{
     //console.log(socket)
-    socket.on('login user',(data)=>{
+    socket.on('login_user',(data)=>{
         console.log(data);
         socket.join(String(data['userroom']),()=>{
             let room = Object.keys(socket.rooms)
