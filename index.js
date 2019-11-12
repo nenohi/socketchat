@@ -30,15 +30,17 @@ io.on('connection',(socket)=>{
         buf = new Buffer.from(data.message,'utf16le');
         data.message = buf.toString('utf-16le',0,buf.length)
         data.buf = buf;
-        io.to(userdata[socket.id]).emit('createdmsg',data)
-        fs.appendFile( userdata[socket.id]+'.log', JSON.stringify(data)+'\r\n', function (err) {
+        io.to(serverdata[socket.id]["userroom"]).emit('createdmsg',data)
+        fs.appendFile( serverdata[socket.id]["userroom"]+'.log', JSON.stringify(data)+'\r\n', function (err) {
             if (err) {
                 throw err;
             }
           });
     })
     socket.on('disconnect',()=>{
-        io.to(serverdata[socket.id]["userroom"]).emit("removeuserlist",{"userid":socket.id,"userroom":serverdata[socket.id]["userroom"],"username":serverdata[socket.id]["username"]});
+        if(serverdata[socket.id]["userroom"]!=undefined){
+            io.to(serverdata[socket.id]["userroom"]).emit("removeuserlist",{"userid":socket.id,"userroom":serverdata[socket.id]["userroom"],"username":serverdata[socket.id]["username"]});
+        }
         delete serverdata[socket.id]
     })
     socket.on('reconnect', ()=>{
