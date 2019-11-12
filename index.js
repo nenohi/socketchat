@@ -38,7 +38,7 @@ io.on('connection',(socket)=>{
           });
     })
     socket.on('disconnect',()=>{
-        io.to(serverdata[socket.id]["userroom"]).emit("userlist",{"userid":socket.id,"userroom":serverdata[socket.id]["userroom"],"username":serverdata[socket.id]["username"]});
+        io.to(serverdata[socket.id]["userroom"]).emit("removeuserlist",{"userid":socket.id,"userroom":serverdata[socket.id]["userroom"],"username":serverdata[socket.id]["username"]});
         delete serverdata[socket.id]
     })
     socket.on('reconnect', ()=>{
