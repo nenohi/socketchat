@@ -7,7 +7,6 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
 var util = require('util');
-var userdata=[];
 var serverdata={};
 server.listen(port, () => {
 	console.log('Server listening at port %d', port);
