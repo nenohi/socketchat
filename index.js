@@ -35,7 +35,7 @@ io.on('connection',(socket)=>{
                 throw err;
             }
           });
-          console.log(data)
+          console.log(serverdata[socket.id])
     })
     socket.on('disconnect',()=>{
         if(serverdata[socket.id]["userroom"]!=undefined){
