@@ -17,7 +17,7 @@ io.on('connection',(socket)=>{
         socket.join(String(data['userroom']),()=>{
             let room = Object.keys(socket.rooms)
             serverdata[socket.id]={"username":data["username"],"userroom":room[0]};
-            io.to(serverdata[socket.id]["userroom"]).emit("userlist",{"userid":socket.id,"username":data["username"],"userroom":room[0]});
+            io.to(serverdata[socket.id]["userroom"]).emit("userlist",{"userid":socket.id,"username":data["username"],"userroom":room[0],"userbuf":new Buffer.from(data["username"],'utf16le')});
         })
     })
     socket.on('msgcreat',(data)=>{
@@ -28,7 +28,9 @@ io.on('connection',(socket)=>{
         now = undefined;
         buf = new Buffer.from(data.message,'utf16le');
         data.message = buf.toString('utf-16le',0,buf.length)
+        ubuf = new Buffer.from(data.username,'utf16le')
         data.buf = buf;
+        data.ubuf = ubuf;
         io.to(serverdata[socket.id]["userroom"]).emit('createdmsg',data)
         fs.appendFile( serverdata[socket.id]["userroom"]+'.log', JSON.stringify(data)+'\r\n', function (err) {
             if (err) {
