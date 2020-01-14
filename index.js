@@ -17,6 +17,7 @@ io.on('connection',(socket)=>{
         socket.join(String(data['userroom']),()=>{
             let room = Object.keys(socket.rooms)
             serverdata[socket.id]={"username":data["username"],"userroom":room[0]};
+            console.log(data["username"]);
             let ubuf = new Buffer.from(data["username"],'utf16le')
             io.to(serverdata[socket.id]["userroom"]).emit("userlist",{"userid":socket.id,"username":data["username"],"userroom":room[0],"userbuf":ubuf});
         })
